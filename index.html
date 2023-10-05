@@ -1,76 +1,68 @@
+<!DOCTYPE html>
 <html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css"/>
-<script defer src="https://pyscript.net/latest/pyscript.js"></script>
-<py-config>
-  packages = [
-    "matplotlib",
-    "scipy"
-  ]
-</py-config>
-<div id="app" style="display: flex; flex-direction: column; text-align: center; overflow-x: scroll">
- <h4>Golf ball flight sim</h4>
-  <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--4-col mdl-cell--order-1" style="min-width: 300px">
-  <p>X spin (rad/s): <span id="x-spin-display">0</span></p>
-  <input id="x-spin" class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="0" tabindex="0" step="1">
-  <p>Y spin (rad/s): <span id="y-spin-display">-34</span></p>
-  <input id="y-spin" class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="-34" tabindex="0" step="1">
-  <p>Z Spin (rad/s): <span id="z-spin-display">0</span></p>
-  <input id="z-spin" class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="0" tabindex="0" step="1">
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="speed" value="60">
-      <label class="mdl-textfield__label" for="speed">Ball Launch Speed (m/s)</label>
-      <span class="mdl-textfield__error">Input is not a number!</span>
-    </div>
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="angle" value="12.5">
-      <label class="mdl-textfield__label" for="angle">Ball Launch Angle (deg)</label>
-      <span class="mdl-textfield__error">Input is not a number!</span>
-    </div>
-      <div style="display: flex; flex-direction: row">
-  <button class="mdl-button mdl-button--colored mdl-button--raised" py-click="simulate()">Simulate</button>
-  <button class="mdl-button" py-click="clear()">Clear</button>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css"/>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <title>Golf ball flight sim</title>
+</head>
+<body>
+    <py-config>
+        packages = [
+            "matplotlib",
+            "scipy"
+        ]
+    </py-config>
+    <div id="app" style="display: flex; flex-direction: column; text-align: center; overflow-x: scroll">
+        <h4>Golf ball flight sim</h4>
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--4-col mdl-cell--order-1" style="min-width: 300px">
+                <p>X spin (rad/s): <span id="x-spin-display">0</span></p>
+                <input id="x-spin" class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="0" tabindex="0" step="1">
+                <p>Y spin (rad/s): <span id="y-spin-display">-34</span></p>
+                <input id="y-spin" class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="-34" tabindex="0" step="1">
+                <p>Z Spin (rad/s): <span id="z-spin-display">0</span></p>
+                <input id="z-spin" class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="0" tabindex="0" step="1">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="speed" value="60">
+                    <label class="mdl-textfield__label" for="speed">Ball Launch Speed (m/s)</label>
+                    <span class="mdl-textfield__error">Input is not a number!</span>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="angle" value="12.5">
+                    <label class="mdl-textfield__label" for="angle">Ball Launch Angle (deg)</label>
+                    <span class="mdl-textfield__error">Input is not a number!</span>
+                </div>
+                <div style="display: flex; flex-direction: row">
+                    <button class="mdl-button mdl-button--colored mdl-button--raised" py-click="simulate()">Simulate</button>
+                    <button class="mdl-button" py-click="clear()">Clear</button>
+                </div>
+                <div style="display: flex; flex-direction: row">
+                    <button class="mdl-button" py-click="rleft()"><i class="material-icons">navigate_before</i></button>
+                    <button class="mdl-button" py-click="rright()"><i class="material-icons">navigate_next</i></button>
+                </div>
+                <div style="display: flex; flex-direction: row">
+                    <button class="mdl-button" py-click="rup()"><i class="material-icons">expand_less</i></button>
+                    <button class="mdl-button" py-click="rdown()"><i class="material-icons">expand_more</i></button>
+                </div>
+            </div>
+            <div id="plot" class="mdl-cell mdl-cell--4-col mdl-cell--order-2"></div>
         </div>
-      <div style="display: flex; flex-direction: row">
-      <button class="mdl-button" py-click="rleft()"><i class="material-icons">navigate_before</i></button>
-  <button class="mdl-button" py-click="rright()"><i class="material-icons">navigate_next</i></button>
-        </div>
-      <div style="display: flex; flex-direction: row">
-      <button class="mdl-button" py-click="rup()"><i class="material-icons">expand_less</i></button>
-  <button class="mdl-button" py-click="rdown()"><i class="material-icons">expand_more</i></button>
-        </div>
     </div>
-      <div id="plot" class="mdl-cell mdl-cell--4-col mdl-cell--order-2"></div>
-  </div>
-  </div>
-</div>
-<script type="py" src="ps_app.py"></script>
-<script>
-  // Get the input element and the span element
-const xsinput = document.querySelector('#x-spin');
-const ysinput = document.querySelector('#y-spin');
-const zsinput = document.querySelector('#z-spin');
-const xsdisplay = document.querySelector('#x-spin-display');
-const ysdisplay = document.querySelector('#y-spin-display');
-const zsdisplay = document.querySelector('#z-spin-display');
+    <script type="py" src="ps_app.py"></script>
+    <script>
+        const spins = ['x', 'y', 'z'];
+        spins.forEach(spin => {
+            const input = document.querySelector(`#${spin}-spin`);
+            const display = document.querySelector(`#${spin}-spin-display`);
 
-
-xsinput.addEventListener('input', e => {
-  xsdisplay.innerHTML = ''
-  xsdisplay.innerHTML = xsinput.value;
-});
-ysinput.addEventListener('input', e => {
-  ysdisplay.innerHTML = ''
-  ysdisplay.innerHTML = ysinput.value;
-});
-zsinput.addEventListener('input', e => {
-  zsdisplay.innerHTML = ''
-  zsdisplay.innerHTML = zsinput.value;
-});
-
-</script>
+            input.addEventListener('input', () => {
+                display.innerHTML = input.value;
+            });
+        });
+    </script>
+</body>
 </html>
