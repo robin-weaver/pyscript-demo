@@ -1,7 +1,8 @@
 import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
-from pyscript import Element, display
+from pyweb import pydom
+from pyscript import display
 import js
 
 # Constants
@@ -44,14 +45,16 @@ def plot_trajectory(res, **kwargs):
     ax.plot(res[:, 0], res[:, 1], res[:, 2], **kwargs)
 
 
-def simulate():
+def simulate(*args):
     try:
-        vel = float(Element('speed').value)
-        la = float(Element('angle').value)
-        av = (int(Element('x-spin').value), int(Element('y-spin').value), -int(Element('z-spin').value))
-        mav = (-int(Element('x-spin').value), int(Element('y-spin').value), int(Element('z-spin').value))
+
+        vel = float(pydom["input#speed"][0].value)
+        la = float(pydom["input#angle"][0].value)
+        av = (int(pydom["input#x-spin"][0].value), int(pydom["input#y-spin"][0].value), -int(pydom["input#z-spin"][0].value))
+        mav = (-int(pydom["input#x-spin"][0].value), int(pydom["input#y-spin"][0].value), int(pydom["input#z-spin"][0].value))
         res = model(vel, la, av)
         res1 = model(vel, la, mav)
+        ## sneaky trick to stop mpl from only expanding one side of the axes - just plot the mirror image but invisible
         plot_trajectory(res1, label='', color='white', linestyle='-', alpha=0.001)
         plot_trajectory(res)
         refresh_plot()
@@ -65,7 +68,7 @@ def refresh_plot():
     display(plt, target="plot")
 
 
-def clear():
+def clear(*args):
     global ax
     del ax
     ax = fig.add_subplot(111, projection='3d')
@@ -83,19 +86,19 @@ def rotate_view(elevation_change=0, azimuth_change=0):
     refresh_plot()
 
 
-def rleft():
+def rleft(*args):
     rotate_view(azimuth_change=-5)
 
 
-def rright():
+def rright(*args):
     rotate_view(azimuth_change=5)
 
 
-def rup():
+def rup(*args):
     rotate_view(elevation_change=5)
 
 
-def rdown():
+def rdown(*args):
     rotate_view(elevation_change=-5)
 
 

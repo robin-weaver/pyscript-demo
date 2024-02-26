@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css"/>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
   <title>Golf ball flight sim</title>
 </head>
 <body>
@@ -37,16 +37,16 @@
                     <span class="mdl-textfield__error">Input is not a number!</span>
                 </div>
                 <div style="display: flex; flex-direction: row">
-                    <button class="mdl-button mdl-button--colored mdl-button--raised" py-click="simulate()">Simulate</button>
-                    <button class="mdl-button" py-click="clear()">Clear</button>
+                    <button class="mdl-button mdl-button--colored mdl-button--raised" py-click="simulate">Simulate</button>
+                    <button class="mdl-button" py-click="clear">Clear</button>
                 </div>
                 <div style="display: flex; flex-direction: row">
-                    <button class="mdl-button" py-click="rleft()"><i class="material-icons">navigate_before</i></button>
-                    <button class="mdl-button" py-click="rright()"><i class="material-icons">navigate_next</i></button>
+                    <button class="mdl-button" py-click="rleft"><i class="material-icons">navigate_before</i></button>
+                    <button class="mdl-button" py-click="rright"><i class="material-icons">navigate_next</i></button>
                 </div>
                 <div style="display: flex; flex-direction: row">
-                    <button class="mdl-button" py-click="rup()"><i class="material-icons">expand_less</i></button>
-                    <button class="mdl-button" py-click="rdown()"><i class="material-icons">expand_more</i></button>
+                    <button class="mdl-button" py-click="rup"><i class="material-icons">expand_less</i></button>
+                    <button class="mdl-button" py-click="rdown"><i class="material-icons">expand_more</i></button>
                 </div>
             </div>
             <div id="plot" class="mdl-cell mdl-cell--4-col mdl-cell--order-2"></div>
