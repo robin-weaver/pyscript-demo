@@ -9,6 +9,30 @@
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
   <title>Golf ball flight sim</title>
 </head>
+<style>
+img {
+    max-width: 100vw;
+    height: auto;
+}
+#plot {
+    max-width: 100vw;
+}
+.mdl-grid {
+    padding: 0;
+    max-width: 100vw;
+}
+.mdl-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mdl-slider__container {
+    width: 100%;
+}
+.mdl-textfield {
+    width: auto;
+}
+</style>
 <body>
     <py-config>
         packages = [
@@ -16,10 +40,12 @@
             "scipy"
         ]
     </py-config>
-    <div id="app" style="display: flex; flex-direction: column; text-align: center; overflow-x: scroll">
+    <div id="app" style="display: flex; flex-direction: column; text-align: center;">
         <h4>Golf ball flight sim</h4>
         <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--4-col mdl-cell--order-1" style="min-width: 300px">
+            <div id="plot" class="mdl-cell mdl-cell--12-col">
+            </div>
+            <div class="mdl-cell mdl-cell--12-col" style="min-width: 300px">
                 <p>X spin (rad/s): <span id="x-spin-display">0</span></p>
                 <input id="x-spin" class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="0" tabindex="0" step="1">
                 <p>Y spin (rad/s): <span id="y-spin-display">-34</span></p>
@@ -49,7 +75,6 @@
                     <button class="mdl-button" py-click="rdown"><i class="material-icons">expand_more</i></button>
                 </div>
             </div>
-            <div id="plot" class="mdl-cell mdl-cell--4-col mdl-cell--order-2"></div>
         </div>
     </div>
     <script type="py" src="ps_app.py"></script>
